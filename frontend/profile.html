@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrafficFlow - Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="nav-brand">🚗 TrafficFlow</a>
+        <div class="nav-links">
+            <a href="dashboard.html" class="nav-link">Dashboard</a>
+            <a href="analytics.html" class="nav-link">Analytics</a>
+            <a href="map.html" class="nav-link">Map</a>
+            <a href="profile.html" class="nav-link active">Profile</a>
+            <a href="#" class="nav-link" id="nav-logout-btn">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2 style="margin-bottom: 2rem;">User Profile</h2>
+        <div class="card card-purple" style="max-width: 600px; margin: 0 auto; text-align: center;">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">👤</div>
+            <h3 class="card-title" id="profile-username">Loading...</h3>
+            <p style="color: var(--text-light); margin-bottom: 2rem;">Welcome to your TrafficFlow profile.</p>
+            
+            <button id="logout-main-btn" class="btn btn-primary" style="width: 100%;">Log Out</button>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = JSON.parse(localStorage.getItem('traffic_user'));
+            if (!user || !user.user_id) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            document.getElementById('profile-username').textContent = `Hello, ${user.username}!`;
+            
+            document.getElementById('logout-main-btn').addEventListener('click', () => {
+                localStorage.removeItem('traffic_user');
+                window.location.href = 'index.html';
+            });
+        });
+    </script>
+</body>
+</html>

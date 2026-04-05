@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrafficFlow - Live Route Planner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+    
+    <style>
+        /* Hide Leaflet Routing Machine text box as we handle the UI natively */
+        .leaflet-routing-container {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="nav-brand">🚗 TrafficFlow</a>
+        <div class="nav-links">
+            <a href="dashboard.html" class="nav-link">Dashboard</a>
+            <a href="analytics.html" class="nav-link">Analytics</a>
+            <a href="map.html" class="nav-link active">Map</a>
+            <a href="profile.html" class="nav-link">Profile</a>
+            <a href="#" class="nav-link" id="nav-logout-btn">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container" style="display: flex; flex-direction: column;">
+        <h2 style="margin-bottom: 2rem;">Live Route Traffic Planner</h2>
+        
+        <div class="grid" style="grid-template-columns: 350px 1fr; gap: 2rem; align-items: start;">
+            <!-- Routing Panel -->
+            <div class="card card-blue" style="padding: 2rem;">
+                <h3 class="card-title">Find Route</h3>
+                <div class="form-group">
+                    <label class="form-label" for="route-source">Source</label>
+                    <input type="text" id="route-source" class="form-control" placeholder="e.g. Chennai">
+                </div>
+                
+                <!-- Dynamic Intermediate Stops Container -->
+                <div id="stops-container"></div>
+                
+                <!-- Add Stop Button -->
+                <button type="button" id="add-stop-btn" class="btn btn-outline" style="width: 100%; margin-bottom: 1.25rem; font-size: 0.9rem; padding: 0.4rem;">+ Add Stop</button>
+
+                <div class="form-group">
+                    <label class="form-label" for="route-dest">Destination</label>
+                    <input type="text" id="route-dest" class="form-control" placeholder="e.g. Vellore">
+                </div>
+                <button id="find-route-btn" class="btn btn-primary" style="width: 100%;">Calculate Routes</button>
+                
+                <div id="route-summary" style="margin-top: 2rem;">
+                    <!-- Route Summaries injected here -->
+                </div>
+            </div>
+
+            <!-- Map Container -->
+            <div id="map" style="height: 650px; margin-top: 0; width: 100%;"></div>
+        </div>
+    </div>
+
+    <!-- Leaflet JS & Ext -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+    
+    <script src="js/auth.js"></script>
+    <script src="js/map.js"></script>
+</body>
+</html>

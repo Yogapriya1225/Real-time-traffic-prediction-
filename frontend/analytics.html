@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrafficFlow - Analytics</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="nav-brand">🚗 TrafficFlow</a>
+        <div class="nav-links">
+            <a href="dashboard.html" class="nav-link">Dashboard</a>
+            <a href="analytics.html" class="nav-link active">Analytics</a>
+            <a href="map.html" class="nav-link">Map</a>
+            <a href="profile.html" class="nav-link">Profile</a>
+            <a href="#" class="nav-link" id="nav-logout-btn">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2 style="margin-bottom: 2rem;">Traffic History & Analytics</h2>
+        
+        <div class="card card-blue" style="margin-bottom: 2rem;">
+            <h3 class="card-title">Recent Traffic Predictions (Vehicle Count vs Speed)</h3>
+            <div style="position: relative; height: 350px; width: 100%;">
+                <canvas id="trafficChart"></canvas>
+            </div>
+        </div>
+        
+        <div class="grid">
+            <div class="card card-green">
+                <h3 class="card-title" style="text-align: center;">Model Accuracy</h3>
+                <div class="accuracy-container">
+                    <div class="accuracy-circle">
+                        <div class="accuracy-inner">94%</div>
+                    </div>
+                    <p style="margin-top: 1.5rem; color: var(--text-light); text-align: center;">Overall Prediction Accuracy</p>
+                </div>
+            </div>
+
+            <div class="card card-orange">
+                <h3 class="card-title" style="text-align: center;">Prediction Distribution</h3>
+                <div style="max-width: 250px; max-height: 250px; margin: 0 auto;">
+                    <canvas id="distributionChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/analytics.js"></script>
+</body>
+</html>

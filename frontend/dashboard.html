@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrafficFlow - Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="nav-brand">🚗 TrafficFlow</a>
+        <div class="nav-links">
+            <a href="dashboard.html" class="nav-link active">Dashboard</a>
+            <a href="analytics.html" class="nav-link">Analytics</a>
+            <a href="map.html" class="nav-link">Map</a>
+            <a href="profile.html" class="nav-link">Profile</a>
+            <a href="#" class="nav-link" id="nav-logout-btn">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2 style="margin-bottom: 2rem;">Traffic Prediction Dashboard</h2>
+        
+        <div class="grid">
+            <!-- Numeric Prediction Form -->
+            <div class="card card-blue">
+                <h3 class="card-title">Numeric Data Analysis</h3>
+                <form id="numeric-form">
+                    <div class="input-row">
+                        <div class="form-group">
+                            <label class="form-label" for="car-count">Car Count</label>
+                            <input type="number" id="car-count" class="form-control" required min="0" placeholder="0">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="bus-count">Bus Count</label>
+                            <input type="number" id="bus-count" class="form-control" required min="0" placeholder="0">
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="form-group">
+                            <label class="form-label" for="bike-count">Bike Count</label>
+                            <input type="number" id="bike-count" class="form-control" required min="0" placeholder="0">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="truck-count">Truck Count</label>
+                            <input type="number" id="truck-count" class="form-control" required min="0" placeholder="0">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="speed">Average Speed (optional, km/h)</label>
+                        <input type="number" id="speed" class="form-control" min="0" placeholder="e.g., 40">
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Predict Traffic</button>
+                </form>
+                <div id="numeric-result" class="alert hidden"></div>
+            </div>
+
+            <!-- NLP Analysis Form -->
+            <div class="card card-purple">
+                <h3 class="card-title">NLP Text Analysis</h3>
+                <form id="nlp-form">
+                    <div class="form-group">
+                        <label class="form-label" for="text-input">Describe the traffic situation</label>
+                        <textarea id="text-input" class="form-control" rows="4" required placeholder='e.g., "The road is very crowded and there is a jam."'></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-outline" style="width: 100%;">Analyze Text</button>
+                </form>
+                <div id="nlp-result" class="alert hidden"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
