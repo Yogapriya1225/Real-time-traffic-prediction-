@@ -1,5 +1,10 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    const user = JSON.parse(localStorage.getItem('traffic_user'));
+    let user = null;
+    try {
+        user = JSON.parse(localStorage.getItem('traffic_user'));
+    } catch (e) {
+        localStorage.removeItem('traffic_user');
+    }
     if (!user || !user.user_id) {
         window.location.href = 'login.html';
         return;
@@ -16,15 +21,17 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (!history || history.length === 0) {
             document.querySelector('.container').innerHTML +=
-                `<div class="alert alert-Medium mt-2">No history found. Make some predictions first!</div>`;
+                `<div class="alert alert-medium mt-2">No history found. Make some predictions first!</div>`;
             return;
         }
 
-        // 🔥 USE ALL DATA (no filtering issue)
-        const numericHistory = history.reverse(); // oldest → newest
+        // ✅ Reverse once (oldest → newest)
+        const numericHistory = [...history].reverse();
 
         const labels = numericHistory.map(h =>
-            new Date(h.created_at).toLocaleTimeString()
+            h.created_at
+                ? new Date(h.created_at).toLocaleTimeString()
+                : "N/A"
         );
 
         const cars = numericHistory.map(h => h.car_count || 0);
@@ -33,12 +40,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         const trucks = numericHistory.map(h => h.truck_count || 0);
         const speeds = numericHistory.map(h => h.speed || 0);
 
-        // OPTIONAL: total vehicles (clean graph)
-        const totalVehicles = numericHistory.map(h => h.vehicle_count || 0);
+        // ✅ Total vehicles dataset
+        const totals = numericHistory.map(h =>
+            (h.car_count || 0) +
+            (h.bus_count || 0) +
+            (h.bike_count || 0) +
+            (h.truck_count || 0)
+        );
 
         // ================= LINE GRAPH =================
         const ctx1 = document.getElementById('trafficChart').getContext('2d');
-
         new Chart(ctx1, {
             type: 'line',
             data: {
@@ -47,51 +58,51 @@ document.addEventListener('DOMContentLoaded', async () => {
                     {
                         label: 'Cars',
                         data: cars,
-                        borderColor: '#EF4444',
+                        borderColor: '#ef4444',
                         backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                        fill: false,
+                        fill: true,
                         tension: 0.4
                     },
                     {
                         label: 'Buses',
                         data: buses,
-                        borderColor: '#3B82F6',
+                        borderColor: '#3b82f6',
                         backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                        fill: false,
+                        fill: true,
                         tension: 0.4
                     },
                     {
                         label: 'Bikes',
                         data: bikes,
-                        borderColor: '#F59E0B',
+                        borderColor: '#f59e0b',
                         backgroundColor: 'rgba(245, 158, 11, 0.1)',
-                        fill: false,
+                        fill: true,
                         tension: 0.4
                     },
                     {
                         label: 'Trucks',
                         data: trucks,
-                        borderColor: '#8B5CF6',
+                        borderColor: '#8b5cf6',
                         backgroundColor: 'rgba(139, 92, 246, 0.1)',
-                        fill: false,
-                        tension: 0.4
-                    },
-                    {
-                        label: 'Total Vehicles',
-                        data: totalVehicles,
-                        borderColor: '#FFFFFF',
-                        borderWidth: 2,
-                        fill: false,
+                        fill: true,
                         tension: 0.4
                     },
                     {
                         label: 'Speed (km/h)',
                         data: speeds,
                         borderColor: '#10B981',
-                        borderDash: [5, 5],
-                        fill: false,
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Total Vehicles',
+                        data: totals,
+                        borderColor: '#111827',
+                        backgroundColor: 'rgba(17, 24, 39, 0.1)',
+                        fill: true,
                         tension: 0.4,
-                        yAxisID: 'y1'
+                        borderDash: [5, 5] // dashed line for distinction
                     }
                 ]
             },
@@ -104,15 +115,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 scales: {
                     x: { stacked: false },
                     y: {
-                        beginAtZero: true,
-                        position: 'left',
-                        title: { display: true, text: 'Vehicle Count' }
-                    },
-                    y1: {
-                        beginAtZero: true,
-                        position: 'right',
-                        grid: { drawOnChartArea: false },
-                        title: { display: true, text: 'Speed (km/h)' }
+                        stacked: false,
+                        beginAtZero: true
                     }
                 }
             }
@@ -122,7 +126,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const predictionCounts = { 'Low Traffic': 0, 'Medium Traffic': 0, 'High Traffic': 0 };
 
         history.forEach(h => {
-            if (predictionCounts[h.result] !== undefined) {
+            if (h.result && predictionCounts.hasOwnProperty(h.result)) {
                 predictionCounts[h.result]++;
             }
         });
