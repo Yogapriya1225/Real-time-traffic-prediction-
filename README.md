@@ -1,0 +1,1 @@
+A Machine Learning-based web application that predicts traffic congestion levels and provides intelligent route visualization using Random Forest, Flask, Leaflet OpenStreetMap, and NLP-based traffic analysis.
